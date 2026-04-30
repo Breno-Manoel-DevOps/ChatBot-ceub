@@ -184,10 +184,10 @@ def _chroma_search(query: str, top_k: int = 4) -> Optional[str]:
 
 
 # ---------------------------------------------------------------------------
-# Interface pública
+# Inicialização
 # ---------------------------------------------------------------------------
 
-_chroma_ready = False
+_chroma_ready = _try_init_chroma()
 
 
 def retrieve(intent: str, query: str) -> tuple[str, str]:

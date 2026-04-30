@@ -44,7 +44,20 @@ class ChatResponse(BaseModel):
 
 @router.get("/", response_class=HTMLResponse)
 async def index(request: Request):
+    """Página inicial do chatbot."""
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@router.get("/tests", response_class=HTMLResponse)
+async def tests_page(request: Request):
+    """Página de testes automatizados."""
+    from tests import run_all_tests
+    results = run_all_tests()
+    
+    return templates.TemplateResponse("tests.html", {
+        "request": request,
+        "results": results
+    })
 
 
 @router.post("/api/chat", response_model=ChatResponse)

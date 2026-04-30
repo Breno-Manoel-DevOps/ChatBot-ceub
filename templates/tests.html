@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testes Automatizados - CEUB IA Assistant</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <style>
+    .test-results {
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .test-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .test-status {
+      font-size: 18px;
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .status-success {
+      background: var(--success);
+      color: white;
+    }
+    .status-failure {
+      background: var(--error);
+      color: white;
+    }
+    .test-output {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .test-section {
+      margin-bottom: 30px;
+    }
+    .test-section h3 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+    }
+    .run-tests-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: background 0.3s;
+    }
+    .run-tests-btn:hover {
+      background: var(--primary-dark);
+    }
+    .back-link {
+      display: inline-block;
+      color: var(--accent);
+      text-decoration: none;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">🧪</div>
+        <div class="logo-text">Testes</div>
+      </div>
+
+      <a href="/" class="back-link">← Voltar ao Chat</a>
+
+      <div class="chat-history">
+        <div style="padding: 20px; text-align: center; font-size: 12px; color: var(--text-secondary); line-height: 1.8;">
+          <div>🧪 Testes Automatizados</div>
+          <div style="margin-top: 8px; opacity: 0.7;">pytest · async · mocks</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="main-chat">
+      <div class="header">
+        <div class="header-title">Testes Automatizados</div>
+        <div class="header-subtitle">
+          Validação de Classificação · RAG · Fluxo Completo
+        </div>
+      </div>
+
+      <div class="test-results">
+        <div class="test-header">
+          <h1>🧪 Suite de Testes - CEUB IA Assistant</h1>
+          <p>Executa testes automatizados para validar funcionalidades do chatbot</p>
+          <button class="run-tests-btn" onclick="location.reload()">🔄 Executar Testes</button>
+        </div>
+
+        {% if results %}
+        <div class="test-status {{ 'status-success' if results.success else 'status-failure' }}">
+          {{ "✅ Todos os testes passaram!" if results.success else "❌ Alguns testes falharam" }}
+        </div>
+
+        <div class="test-section">
+          <h3>📋 Resultados dos Testes</h3>
+          <div class="test-output">{{ results.stdout }}</div>
+        </div>
+
+        {% if results.stderr %}
+        <div class="test-section">
+          <h3>⚠️ Erros e Avisos</h3>
+          <div class="test-output" style="color: var(--error);">{{ results.stderr }}</div>
+        </div>
+        {% endif %}
+
+        <div class="test-section">
+          <h3>ℹ️ Informações Técnicas</h3>
+          <div class="test-output">
+Código de Saída: {{ results.returncode }}
+Framework: pytest com pytest-asyncio
+Cobertura: Classificação de intenção, RAG, fluxo completo, validação de entrada
+          </div>
+        </div>
+        {% else %}
+        <div class="test-status status-failure">
+          ❌ Erro ao executar testes
+        </div>
+        <p>Verifique se as dependências estão instaladas e tente novamente.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/script.js"></script>
+</body>
+</html>

@@ -8,3 +8,5 @@ chromadb==0.5.15
 sentence-transformers==3.1.1
 pypdf==4.3.1
 pydantic==2.9.2
+pytest==8.3.3
+pytest-asyncio==0.24.0
