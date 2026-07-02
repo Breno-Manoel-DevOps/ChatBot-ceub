@@ -15,7 +15,7 @@ import rag
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
-API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "")
+API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "").strip()
 
 
 # ---------------------------------------------------------------------------
@@ -46,6 +46,12 @@ class ChatResponse(BaseModel):
 async def index(request: Request):
     """Página inicial do chatbot."""
     return templates.TemplateResponse("index.html", {"request": request})
+
+
+@router.get("/health")
+async def health():
+    """Healthcheck para orquestração e contêineres."""
+    return {"status": "ok"}
 
 
 @router.get("/tests", response_class=HTMLResponse)

@@ -28,7 +28,7 @@ from routes import router
 # ---------------------------------------------------------------------------
 
 load_dotenv()
-API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
+API_KEY = os.getenv("DEEPSEEK_API_KEY", "").strip()
 
 
 def _validate_startup() -> None:

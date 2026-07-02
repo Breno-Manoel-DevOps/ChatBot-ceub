@@ -75,7 +75,8 @@ Para dúvidas não cobertas aqui, acesse ea.uniceub.br ou dirija-se à Central d
 
 _chroma_collection = None
 _embedder = None
-KNOWLEDGE_DIR = pathlib.Path("knowledge")  # pasta com PDFs/TXTs do CEUB
+CHROMA_DB_PATH = pathlib.Path(os.getenv("CHROMA_DB_PATH", "chroma_db"))
+KNOWLEDGE_DIR = pathlib.Path(os.getenv("KNOWLEDGE_DIR", "knowledge"))  # pasta com PDFs/TXTs do CEUB
 
 
 def _try_init_chroma() -> bool:
@@ -85,7 +86,8 @@ def _try_init_chroma() -> bool:
         import chromadb
         from sentence_transformers import SentenceTransformer
 
-        client = chromadb.PersistentClient(path=".chroma_db")
+        CHROMA_DB_PATH.mkdir(parents=True, exist_ok=True)
+        client = chromadb.PersistentClient(path=str(CHROMA_DB_PATH))
         _chroma_collection = client.get_or_create_collection(
             name="ceub_knowledge",
             metadata={"hnsw:space": "cosine"},
@@ -113,7 +115,7 @@ def _index_knowledge_files() -> None:
 
     for file_path in KNOWLEDGE_DIR.iterdir():
         doc_id = file_path.name
-        if doc_id in existing_ids:
+        if any(id_.startswith(f"{doc_id}::") for id_ in existing_ids):
             continue  # já indexado
 
         text = _read_file(file_path)
