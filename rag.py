@@ -98,7 +98,7 @@ def _try_init_chroma() -> bool:
         # Indexa documentos da pasta /knowledge se ainda não indexados
         _index_knowledge_files()
         return True
-    except ImportError:
+    except (ImportError, ModuleNotFoundError):
         print("[RAG] ChromaDB ou SentenceTransformer não instalados — usando fallback hardcoded.")
         return False
     except Exception as e:
