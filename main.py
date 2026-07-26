@@ -32,15 +32,15 @@ API_KEY = os.getenv("DEEPSEEK_API_KEY", "").strip()
 
 
 def _validate_startup() -> None:
-    """Encerra a aplicação imediatamente se a configuração estiver incompleta."""
+    """Verifica a configuração no startup e continua sem travar o deploy."""
     if not API_KEY:
         print(
-            "\n❌ ERRO FATAL: DEEPSEEK_API_KEY não encontrada.\n"
-            "   Crie um arquivo .env na raiz do projeto com:\n"
-            "   DEEPSEEK_API_KEY=sk-...\n",
+            "\n⚠️ AVISO: DEEPSEEK_API_KEY não encontrada.\n"
+            "   Defina a variável de ambiente DEEPSEEK_API_KEY no painel do Render.\n"
+            "   O endpoint /api/chat continuará retornando erro 500 até isso ser configurado.\n",
             file=sys.stderr,
         )
-        sys.exit(1)
+        return
     print("✅ API Key carregada com sucesso.")
 
 
